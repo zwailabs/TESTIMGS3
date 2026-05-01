@@ -36,24 +36,24 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            // Background - Dark Layered Gradient
-            Group {
-                Color.black.ignoresSafeArea()
-                
-                // Subtle colored orbs for depth
-                Circle()
-                    .fill(Color.blue.opacity(0.15))
-                    .frame(width: 400, height: 400)
-                    .offset(x: -150, y: -300)
-                    .blur(radius: 100)
-                
-                Circle()
-                    .fill(Color.purple.opacity(0.1))
-                    .frame(width: 350, height: 350)
-                    .offset(x: 150, y: 300)
-                    .blur(radius: 80)
-            }
+            // Background - iOS 18 Liquid Mesh Gradient
+            MeshGradient(width: 3, height: 3, points: [
+                [0, 0], [0.5, 0], [1, 0],
+                [0, 0.5], [0.5, 0.5], [1, 0.5],
+                [0, 1], [0.5, 1], [1, 1]
+            ], colors: [
+                .black, .black, .blue.opacity(0.3),
+                .black, .indigo.opacity(0.2), .black,
+                .purple.opacity(0.3), .black, .black
+            ])
             .ignoresSafeArea()
+            
+            // Soft white light orb for additional highlight depth
+            Circle()
+                .fill(Color.white.opacity(0.05))
+                .frame(width: 500)
+                .offset(y: -400)
+                .blur(radius: 100)
             
             VStack(spacing: 0) {
                 // Header
