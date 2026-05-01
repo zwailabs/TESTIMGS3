@@ -7,10 +7,12 @@ targets:
     platform: iOS
     deploymentTarget: "18.0"
     sources: [Sources]
-    info:
-      path: Info.plist
     settings:
       base:
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait"
+        TARGETED_DEVICE_FAMILY: "1,2"
         CODE_SIGNING_REQUIRED: "NO"
         CODE_SIGN_IDENTITY: ""
         PRODUCT_BUNDLE_IDENTIFIER: com.example.TodoApp
