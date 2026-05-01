@@ -11,7 +11,6 @@ targets:
       path: Info.plist
     settings:
       base:
-        GENERATE_INFOPLIST_FILE: YES
         CODE_SIGNING_REQUIRED: "NO"
         CODE_SIGN_IDENTITY: ""
         PRODUCT_BUNDLE_IDENTIFIER: com.example.TodoApp

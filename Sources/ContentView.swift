@@ -36,8 +36,9 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            // Background
-            Color(red: 0.96, green: 0.96, blue: 0.97).ignoresSafeArea()
+            // Background - ensure it ignores safe areas to fill the whole screen
+            Color(red: 0.96, green: 0.96, blue: 0.97)
+                .ignoresSafeArea()
             
             VStack(spacing: 0) {
                 // Header
@@ -67,13 +68,14 @@ struct ContentView: View {
                         .padding(.bottom, 120)
                     }
                 }
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: .infinity, maxHeight: .infinity) // Make the card fill available space
                 .background(Color.white)
                 .cornerRadius(32)
                 .padding(.top, 24)
                 .padding(.horizontal, 16)
                 .padding(.bottom, -40)
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             
             // Bottom Bar Overlay
             VStack {
@@ -83,6 +85,7 @@ struct ContentView: View {
             }
             .ignoresSafeArea(.keyboard)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
