@@ -36,9 +36,24 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            // Background - Liquid Mesh Gradient effect
-            LinearGradient(colors: [Color(red: 0.9, green: 0.92, blue: 0.95), Color.white, Color(red: 0.95, green: 0.9, blue: 0.92)], startPoint: .topLeading, endPoint: .bottomTrailing)
-                .ignoresSafeArea()
+            // Background - Dark Layered Gradient
+            Group {
+                Color.black.ignoresSafeArea()
+                
+                // Subtle colored orbs for depth
+                Circle()
+                    .fill(Color.blue.opacity(0.15))
+                    .frame(width: 400, height: 400)
+                    .offset(x: -150, y: -300)
+                    .blur(radius: 100)
+                
+                Circle()
+                    .fill(Color.purple.opacity(0.1))
+                    .frame(width: 350, height: 350)
+                    .offset(x: 150, y: 300)
+                    .blur(radius: 80)
+            }
+            .ignoresSafeArea()
             
             VStack(spacing: 0) {
                 // Header
@@ -51,7 +66,7 @@ struct ContentView: View {
                     .padding(.horizontal, 24)
                     .padding(.top, 24)
                 
-                // Card - "Real Liquid Glass"
+                // Card - "Translucent Dark Surface"
                 VStack(spacing: 0) {
                     FilterTabsView(selectedTab: $selectedTab)
                         .padding(.top, 20)
@@ -69,11 +84,11 @@ struct ContentView: View {
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(.regularMaterial) // Glass effect
+                .background(.ultraThinMaterial) // Real iOS Glass API
                 .cornerRadius(32)
                 .overlay(
                     RoundedRectangle(cornerRadius: 32)
-                        .stroke(.white.opacity(0.5), lineWidth: 1)
+                        .stroke(.white.opacity(0.15), lineWidth: 1) // Soft white highlights
                 )
                 .padding(.top, 24)
                 .padding(.horizontal, 16)
@@ -89,6 +104,7 @@ struct ContentView: View {
             }
             .ignoresSafeArea(.keyboard)
         }
+        .preferredColorScheme(.dark) // Dark Mode theme
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
@@ -100,23 +116,23 @@ struct HeaderView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Hey, Karthik👋🏼")
                     .font(.system(size: 26, weight: .bold))
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
                 
                 Text("Let's make progress today!")
                     .font(.custom("Georgia-Italic", size: 17))
                     .italic()
-                    .foregroundColor(.black.opacity(0.6))
+                    .foregroundColor(.white.opacity(0.6))
             }
             Spacer()
             Button(action: {}) {
                 Image(systemName: "sun.max")
                     .font(.system(size: 20, weight: .medium))
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
                     .frame(width: 48, height: 48)
                     .background(.ultraThinMaterial)
                     .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                     .overlay(RoundedRectangle(cornerRadius: 14).stroke(.white.opacity(0.2), lineWidth: 1))
-                    .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 5)
+                    .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 5)
             }
         }
     }
@@ -133,18 +149,18 @@ struct CalendarStripView: View {
                 VStack(spacing: 6) {
                     Text(day)
                         .font(.system(size: 13, weight: .medium))
-                        .foregroundColor(selectedDate == date ? .black : .gray.opacity(0.5))
+                        .foregroundColor(selectedDate == date ? .white : .white.opacity(0.3))
                     Text("\(date)")
                         .font(.system(size: 16, weight: selectedDate == date ? .bold : .medium))
-                        .foregroundColor(selectedDate == date ? .black : .gray.opacity(0.5))
+                        .foregroundColor(selectedDate == date ? .white : .white.opacity(0.3))
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 12)
                 .background(
                     selectedDate == date ?
                         RoundedRectangle(cornerRadius: 16, style: .continuous)
-                            .fill(.regularMaterial)
-                            .shadow(color: .black.opacity(0.05), radius: 5)
+                            .fill(.white.opacity(0.1))
+                            .shadow(color: .black.opacity(0.1), radius: 5)
                         : nil
                 )
                 .onTapGesture {
@@ -155,8 +171,8 @@ struct CalendarStripView: View {
         .padding(8)
         .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 24).stroke(.white.opacity(0.2), lineWidth: 1))
-        .shadow(color: Color.black.opacity(0.03), radius: 10, x: 0, y: 5)
+        .overlay(RoundedRectangle(cornerRadius: 24).stroke(.white.opacity(0.1), lineWidth: 1))
+        .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)
     }
 }
 
@@ -180,17 +196,17 @@ struct FilterTabsView: View {
                             .font(.system(size: 14, weight: .semibold))
                             .fixedSize(horizontal: true, vertical: false)
                     }
-                    .foregroundColor(selectedTab == tab ? .white : .primary.opacity(0.6))
+                    .foregroundColor(selectedTab == tab ? .black : .white.opacity(0.6))
                     .padding(.vertical, 10)
                     .padding(.horizontal, 16)
-                    .background(selectedTab == tab ? Color.black : Color.clear)
+                    .background(selectedTab == tab ? Color.white : Color.clear)
                     .clipShape(Capsule())
                 }
             }
             Spacer()
         }
         .padding(4)
-        .background(.thinMaterial)
+        .background(.white.opacity(0.05))
         .clipShape(Capsule())
     }
 }
@@ -204,10 +220,10 @@ struct TaskSectionView: View {
                 HStack(spacing: 8) {
                     Image(systemName: section.isExpanded ? "arrowtriangle.down.fill" : "arrowtriangle.right.fill")
                         .font(.system(size: 10))
-                        .foregroundColor(.black)
+                        .foregroundColor(.white)
                     Text(section.title)
                         .font(.system(size: 17, weight: .bold))
-                        .foregroundColor(.black)
+                        .foregroundColor(.white)
                 }
             }
             if section.isExpanded {
@@ -228,16 +244,16 @@ struct TaskRowView: View {
         HStack(spacing: 14) {
             Button(action: { withAnimation { task.isCompleted.toggle() } }) {
                 RoundedRectangle(cornerRadius: 6, style: .continuous)
-                    .strokeBorder(Color.gray.opacity(0.3), lineWidth: 1.5)
-                    .background(RoundedRectangle(cornerRadius: 6, style: .continuous).fill(task.isCompleted ? Color.black : Color.clear))
+                    .strokeBorder(Color.white.opacity(0.2), lineWidth: 1.5)
+                    .background(RoundedRectangle(cornerRadius: 6, style: .continuous).fill(task.isCompleted ? Color.white : Color.clear))
                     .frame(width: 22, height: 22)
-                    .overlay(Image(systemName: "checkmark").font(.system(size: 10, weight: .bold)).foregroundColor(.white).opacity(task.isCompleted ? 1 : 0))
+                    .overlay(Image(systemName: "checkmark").font(.system(size: 10, weight: .bold)).foregroundColor(.black).opacity(task.isCompleted ? 1 : 0))
             }
             Text(task.icon).font(.system(size: 20))
             Text(task.title)
                 .font(.system(size: 16, weight: .medium))
-                .foregroundColor(task.isCompleted ? .gray : .black.opacity(0.85))
-                .strikethrough(task.isCompleted, color: .gray)
+                .foregroundColor(task.isCompleted ? .white.opacity(0.4) : .white.opacity(0.9))
+                .strikethrough(task.isCompleted, color: .white.opacity(0.4))
             Spacer()
         }
     }
@@ -257,17 +273,17 @@ struct BottomTabBarView: View {
             .padding(6)
             .background(.ultraThinMaterial)
             .clipShape(Capsule())
-            .overlay(Capsule().stroke(.white.opacity(0.2), lineWidth: 1))
-            .shadow(color: Color.black.opacity(0.05), radius: 15, x: 0, y: 10)
+            .overlay(Capsule().stroke(.white.opacity(0.1), lineWidth: 1))
+            .shadow(color: Color.black.opacity(0.4), radius: 15, x: 0, y: 10)
             
             Button(action: {}) {
                 Image(systemName: "plus")
                     .font(.system(size: 22, weight: .bold))
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                     .frame(width: 56, height: 56)
-                    .background(Color.black)
+                    .background(Color.white)
                     .clipShape(Circle())
-                    .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: 5)
+                    .shadow(color: Color.white.opacity(0.1), radius: 10, x: 0, y: 5)
             }
         }
         .padding(.horizontal, 20)
@@ -291,10 +307,10 @@ struct TabBarItem: View {
                         .fixedSize(horizontal: true, vertical: false)
                 }
             }
-            .foregroundColor(isSelected ? .black : .primary.opacity(0.4))
+            .foregroundColor(isSelected ? .white : .white.opacity(0.4))
             .padding(.vertical, 12)
             .padding(.horizontal, isSelected ? 20 : 18)
-            .background(isSelected ? Color.white.opacity(0.8) : Color.clear)
+            .background(isSelected ? Color.white.opacity(0.15) : Color.clear)
             .clipShape(Capsule())
         }
     }
