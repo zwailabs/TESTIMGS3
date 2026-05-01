@@ -36,24 +36,17 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            // Background - iOS 18 Liquid Mesh Gradient
+            // Background - Dynamic Liquid Mesh (New in iOS 18+, perfect for iOS 26)
             MeshGradient(width: 3, height: 3, points: [
                 [0, 0], [0.5, 0], [1, 0],
                 [0, 0.5], [0.5, 0.5], [1, 0.5],
                 [0, 1], [0.5, 1], [1, 1]
             ], colors: [
-                .black, .black, .blue.opacity(0.3),
-                .black, .indigo.opacity(0.2), .black,
-                .purple.opacity(0.3), .black, .black
+                .black, .indigo.opacity(0.3), .black,
+                .blue.opacity(0.2), .black, .purple.opacity(0.2),
+                .black, .indigo.opacity(0.3), .black
             ])
             .ignoresSafeArea()
-            
-            // Soft white light orb for additional highlight depth
-            Circle()
-                .fill(Color.white.opacity(0.05))
-                .frame(width: 500)
-                .offset(y: -400)
-                .blur(radius: 100)
             
             VStack(spacing: 0) {
                 // Header
@@ -66,7 +59,7 @@ struct ContentView: View {
                     .padding(.horizontal, 24)
                     .padding(.top, 24)
                 
-                // Card - "Translucent Dark Surface"
+                // Card - "Real Liquid Glass" (Multi-layered Material)
                 VStack(spacing: 0) {
                     FilterTabsView(selectedTab: $selectedTab)
                         .padding(.top, 20)
@@ -84,11 +77,24 @@ struct ContentView: View {
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(.ultraThinMaterial) // Real iOS Glass API
+                .background(.ultraThinMaterial) // Primary Glass Layer
                 .cornerRadius(32)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 32)
-                        .stroke(.white.opacity(0.15), lineWidth: 1) // Soft white highlights
+                    ZStack {
+                        // Soft Specular Highlight on top edge
+                        RoundedRectangle(cornerRadius: 32)
+                            .stroke(
+                                LinearGradient(colors: [.white.opacity(0.3), .clear, .white.opacity(0.1)], startPoint: .topLeading, endPoint: .bottomTrailing),
+                                lineWidth: 1.5
+                            )
+                        
+                        // Subtle Inner Shadow for Depth
+                        RoundedRectangle(cornerRadius: 32)
+                            .stroke(.black.opacity(0.2), lineWidth: 1)
+                            .blur(radius: 1)
+                            .offset(y: 1)
+                            .mask(RoundedRectangle(cornerRadius: 32))
+                    }
                 )
                 .padding(.top, 24)
                 .padding(.horizontal, 16)
@@ -104,7 +110,7 @@ struct ContentView: View {
             }
             .ignoresSafeArea(.keyboard)
         }
-        .preferredColorScheme(.dark) // Dark Mode theme
+        .preferredColorScheme(.dark)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
@@ -159,7 +165,7 @@ struct CalendarStripView: View {
                 .background(
                     selectedDate == date ?
                         RoundedRectangle(cornerRadius: 16, style: .continuous)
-                            .fill(.white.opacity(0.1))
+                            .fill(.white.opacity(0.12))
                             .shadow(color: .black.opacity(0.1), radius: 5)
                         : nil
                 )
@@ -199,14 +205,14 @@ struct FilterTabsView: View {
                     .foregroundColor(selectedTab == tab ? .black : .white.opacity(0.6))
                     .padding(.vertical, 10)
                     .padding(.horizontal, 16)
-                    .background(selectedTab == tab ? Color.white : Color.clear)
+                    .background(selectedTab == tab ? Color.white.opacity(0.9) : Color.clear)
                     .clipShape(Capsule())
                 }
             }
             Spacer()
         }
         .padding(4)
-        .background(.white.opacity(0.05))
+        .background(.white.opacity(0.08))
         .clipShape(Capsule())
     }
 }
@@ -310,7 +316,7 @@ struct TabBarItem: View {
             .foregroundColor(isSelected ? .white : .white.opacity(0.4))
             .padding(.vertical, 12)
             .padding(.horizontal, isSelected ? 20 : 18)
-            .background(isSelected ? Color.white.opacity(0.15) : Color.clear)
+            .background(isSelected ? Color.white.opacity(0.2) : Color.clear)
             .clipShape(Capsule())
         }
     }
