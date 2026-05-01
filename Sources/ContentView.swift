@@ -36,8 +36,8 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            // Background - ensure it ignores safe areas to fill the whole screen
-            Color(red: 0.96, green: 0.96, blue: 0.97)
+            // Background - Liquid Mesh Gradient effect
+            LinearGradient(colors: [Color(red: 0.9, green: 0.92, blue: 0.95), Color.white, Color(red: 0.95, green: 0.9, blue: 0.92)], startPoint: .topLeading, endPoint: .bottomTrailing)
                 .ignoresSafeArea()
             
             VStack(spacing: 0) {
@@ -51,7 +51,7 @@ struct ContentView: View {
                     .padding(.horizontal, 24)
                     .padding(.top, 24)
                 
-                // Card
+                // Card - "Real Liquid Glass"
                 VStack(spacing: 0) {
                     FilterTabsView(selectedTab: $selectedTab)
                         .padding(.top, 20)
@@ -68,9 +68,13 @@ struct ContentView: View {
                         .padding(.bottom, 120)
                     }
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity) // Make the card fill available space
-                .background(Color.white)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(.regularMaterial) // Glass effect
                 .cornerRadius(32)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 32)
+                        .stroke(.white.opacity(0.5), lineWidth: 1)
+                )
                 .padding(.top, 24)
                 .padding(.horizontal, 16)
                 .padding(.bottom, -40)
@@ -109,8 +113,9 @@ struct HeaderView: View {
                     .font(.system(size: 20, weight: .medium))
                     .foregroundColor(.black)
                     .frame(width: 48, height: 48)
-                    .background(Color.white)
+                    .background(.ultraThinMaterial)
                     .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    .overlay(RoundedRectangle(cornerRadius: 14).stroke(.white.opacity(0.2), lineWidth: 1))
                     .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 5)
             }
         }
@@ -138,7 +143,8 @@ struct CalendarStripView: View {
                 .background(
                     selectedDate == date ?
                         RoundedRectangle(cornerRadius: 16, style: .continuous)
-                            .fill(Color(red: 0.94, green: 0.94, blue: 0.96))
+                            .fill(.regularMaterial)
+                            .shadow(color: .black.opacity(0.05), radius: 5)
                         : nil
                 )
                 .onTapGesture {
@@ -147,8 +153,9 @@ struct CalendarStripView: View {
             }
         }
         .padding(8)
-        .background(Color.white)
+        .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 24).stroke(.white.opacity(0.2), lineWidth: 1))
         .shadow(color: Color.black.opacity(0.03), radius: 10, x: 0, y: 5)
     }
 }
@@ -173,7 +180,7 @@ struct FilterTabsView: View {
                             .font(.system(size: 14, weight: .semibold))
                             .fixedSize(horizontal: true, vertical: false)
                     }
-                    .foregroundColor(selectedTab == tab ? .white : .gray)
+                    .foregroundColor(selectedTab == tab ? .white : .primary.opacity(0.6))
                     .padding(.vertical, 10)
                     .padding(.horizontal, 16)
                     .background(selectedTab == tab ? Color.black : Color.clear)
@@ -183,7 +190,7 @@ struct FilterTabsView: View {
             Spacer()
         }
         .padding(4)
-        .background(Color(red: 0.96, green: 0.96, blue: 0.97))
+        .background(.thinMaterial)
         .clipShape(Capsule())
     }
 }
@@ -248,8 +255,9 @@ struct BottomTabBarView: View {
                 TabBarItem(icon: "person.fill", title: "Profile", currentSelection: $selectedTab)
             }
             .padding(6)
-            .background(Color(red: 0.94, green: 0.94, blue: 0.96))
+            .background(.ultraThinMaterial)
             .clipShape(Capsule())
+            .overlay(Capsule().stroke(.white.opacity(0.2), lineWidth: 1))
             .shadow(color: Color.black.opacity(0.05), radius: 15, x: 0, y: 10)
             
             Button(action: {}) {
@@ -283,10 +291,10 @@ struct TabBarItem: View {
                         .fixedSize(horizontal: true, vertical: false)
                 }
             }
-            .foregroundColor(isSelected ? .black : .gray.opacity(0.6))
+            .foregroundColor(isSelected ? .black : .primary.opacity(0.4))
             .padding(.vertical, 12)
             .padding(.horizontal, isSelected ? 20 : 18)
-            .background(isSelected ? Color.white : Color.clear)
+            .background(isSelected ? Color.white.opacity(0.8) : Color.clear)
             .clipShape(Capsule())
         }
     }

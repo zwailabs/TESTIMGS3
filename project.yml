@@ -5,7 +5,7 @@ targets:
   TodoApp:
     type: application
     platform: iOS
-    deploymentTarget: "15.0"
+    deploymentTarget: "18.0"
     sources: [Sources]
     info:
       path: Info.plist
